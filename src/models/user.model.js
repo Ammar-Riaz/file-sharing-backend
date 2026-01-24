@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema(
     },
     coverImage: {
       type: String,
-      required: true,
     },
     password: {
       type: String,
@@ -34,7 +33,6 @@ const userSchema = new mongoose.Schema(
     },
     refreshToken: {
       type: String,
-      required: true,
     },
   },
   {
@@ -42,11 +40,10 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
-  next();
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
