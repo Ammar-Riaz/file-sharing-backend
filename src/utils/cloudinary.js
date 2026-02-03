@@ -14,11 +14,21 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto",
     });
     console.log("File uploaded successfully", response);
-    fs.unlinkSync(localFilePath);
+
+    // Check if file exists before unlinking
+    if (fs.existsSync(localFilePath)) {
+      fs.unlinkSync(localFilePath);
+    }
+
     return response;
   } catch (error) {
     console.log("Failed to upload file", error);
-    fs.unlinkSync(localFilePath);
+
+    // Check if file exists before unlinking in catch block
+    if (fs.existsSync(localFilePath)) {
+      fs.unlinkSync(localFilePath);
+    }
+
     return null;
   }
 };
